@@ -111,12 +111,12 @@ const calcDisplaySummary = function (acc) {
   const incomes = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumIn.textContent = `${incomes}€`;
+  labelSumIn.textContent = `${incomes.toFixed(2)}€`;
 
   const out = acc.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumOut.textContent = `${Math.abs(out)}€`;
+  labelSumOut.textContent = `${Math.abs(out).toFixed(2)}€`;
 
   const interest = acc.movements
     .filter(mov => mov > 0)
@@ -126,7 +126,7 @@ const calcDisplaySummary = function (acc) {
       return int >= 1;
     })
     .reduce((acc, int) => acc + int, 0);
-  labelSumInterest.textContent = `${interest}€`;
+  labelSumInterest.textContent = `${interest.toFixed(2)}€`;
 };
 
 const createUsernames = function (accs) {
@@ -162,7 +162,6 @@ btnLogin.addEventListener('click', function (e) {
   currentAccount = accounts.find(
     acc => acc.username === inputLoginUsername.value
   );
-  console.log(currentAccount);
 
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
     // Display UI and message
@@ -252,10 +251,114 @@ btnSort.addEventListener('click', function (e) {
 /////////////////////////////////////////////////
 // LECTURES
 
-let show = false;
-document.querySelector('body').addEventListener('click', () => {
-  // !show ? console.log('Its now TRUE O') : console.log('Its FALSE ');
-  console.log(!show ? 'Its now TRUE O' : 'Its FALSE ');
+// // Convrting and Checking Numbers
+// // numbers are represented as floating point numbers
 
-  show = !show;
-});
+// //Numbers are represented in binary and bases:
+// //Base 10 -> numbners from 0 - 9
+// //Binary base 2 -> numbers 0 and 1
+
+// console.log(23 === 23.0); /* This result will return true */
+
+// console.log(+'23'); /* Convert string to number */
+
+// // Parcing
+// console.log(Number.parseInt('30xr'));
+// console.log(Number.parseInt('rx30'));
+
+// console.log(parseFloat(`2.5rem`));
+
+// //Check if value is not a Number
+// console.log(Number.isNaN(20));
+// console.log(Number.isNaN('20'));
+// console.log(Number.isNaN(Number.parseInt('rx30')));
+
+// //Check if value is a number
+// console.log(Number.isFinite('20'));
+// console.log(Number.isFinite(+'20'));
+// console.log(Number.isFinite('25em'));
+// console.log(Number.isFinite(parseFloat('35rem')));
+
+// //Check if value is an integer
+// console.log(Number.isInteger(parseFloat('35rem')));
+
+// //MATH AND ROUND.
+
+// //squreroots.
+// console.log(Math.sqrt(25));
+// console.log(25 ** (1 / 2));
+// console.log(8 ** (1 / 3));
+
+// //Maximum number from an option/ array.
+
+// const arr = [1, 2, 3, 4, '100', 45, 20, 60];
+// const arr2 = [-1, -2, -3, -4, parseInt('-90px'), -45, -20, -60];
+
+// console.log(Math.max(...arr));
+// console.log(Math.max(...arr2));
+
+// console.log(Math.min(...arr));
+// console.log(Math.min(...arr2));
+
+// console.log(Math.PI * parseFloat('10px') ** 2);
+
+// console.log(Math.trunc(Math.random() * 6 + 1));
+
+// const randomInt = (min, max) =>
+//   Math.trunc(Math.random() * (max - min) + min + 1);
+// // 0...1 -> 0...(min, max) -> 0 + min ....(min, max) + min -> min...max
+
+// // console.log(randomInt(30, 35));
+
+// // Rounding integers
+
+// // Math.trunc will always return the number without rounding-up with both positive and negative numbers
+// console.log(Math.trunc(23.3));
+// console.log(Math.trunc(23.9));
+
+// // Math.ceil will always round up on all positive nunmbers and will return the intiger on negative values
+// console.log(Math.ceil(23.3));
+// console.log(Math.ceil(23.9));
+
+// //floor will always round up on negative numbers and return the Intiger on positive values
+// console.log(Math.floor(23.3));
+// console.log(Math.floor(23.9));
+
+// console.log(Math.ceil(23.3) === Math.floor(-23.9));
+
+// //Rounding decimals.
+// //Rounding the numbers with toFixed will always return a string
+
+// console.log((23).toFixed(2));
+// console.log((23.01).toFixed(1));
+// console.log((23.2368).toFixed(2));
+
+// // Remainder
+// console.log(5 % 2);
+// console.log(5 / 2);
+
+// console.log(8 % 5);
+
+// const even = n => n % 2;
+
+// labelBalance.addEventListener('click', () => {
+//   [...document.querySelectorAll('.movements__row')].forEach((row, i) => {
+//     if (i % 2 === 0) {
+//       row.style.backgroundColor = 'red';
+//     }
+//   });
+// });
+
+// // Big Int
+// console.log(2 ** 53 - 1);
+// console.log(Number.MAX_SAFE_INTEGER);
+
+// console.log(1372378261863287392981767882731986123871n);
+// console.log(
+//   BigInt(
+//     1372378261863287392981767882731986123871 *
+//       100038923909 *
+//       3947293729382932983 -
+//       3293729382983298
+//   )
+// );
