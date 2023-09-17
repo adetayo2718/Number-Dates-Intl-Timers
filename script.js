@@ -14,7 +14,6 @@ const account1 = {
   movements: [200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300],
   interestRate: 1.2, // %
   pin: 1111,
-
   movementsDates: [
     '2019-11-18T21:31:17.178Z',
     '2019-12-23T07:42:02.383Z',
@@ -22,7 +21,7 @@ const account1 = {
     '2020-04-01T10:17:24.185Z',
     '2020-05-08T14:11:59.604Z',
     '2020-05-27T17:01:17.194Z',
-    '2020-07-11T23:36:17.929Z',
+    '2020-07-11T20:36:17.929Z',
     '2020-07-12T10:51:36.790Z',
   ],
   currency: 'EUR',
@@ -80,21 +79,32 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 /////////////////////////////////////////////////
 // Functions
+const dateFunc = date => {
+  const day = `${date.getDate()}`.padStart(2, 0);
+  const month = `${date.getMonth() + 1}`.padStart(2, 0);
+  const year = `${date.getFullYear()}`.padStart(2, 0);
+  const displayDate = `${day}/${month}/${year}`;
+  return displayDate;
+};
 
-const displayMovements = function (movements, sort = false) {
+const displayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = '';
 
-  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  const movs = sort
+    ? acc.movements.slice().sort((a, b) => a - b)
+    : acc.movements;
 
   movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
+    const date = new Date(acc.movementsDates[i]);
 
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
-        <div class="movements__value">${mov}€</div>
+      <div class="movements__date">${dateFunc(date)}</div>
+      <div class="movements__value">${mov}€</div>
       </div>
     `;
 
@@ -142,7 +152,7 @@ createUsernames(accounts);
 
 const updateUI = function (acc) {
   // Display movements
-  displayMovements(acc.movements);
+  displayMovements(acc);
 
   // Display balance
   calcDisplayBalance(acc);
@@ -169,6 +179,17 @@ btnLogin.addEventListener('click', function (e) {
       currentAccount.owner.split(' ')[0]
     }`;
     containerApp.style.opacity = 100;
+
+    const now = new Date();
+    const day = `${now.getDate()}`.padStart(2, 0);
+    const month = `${now.getMonth()}`.padStart(2, 0);
+    const year = `${now.getFullYear()}`.padStart(2, 0);
+    const hour = `${now.getHours()}`.padStart(2, 0);
+    const min = `${now.getMinutes()}`.padStart(2, 0);
+
+    const displayDate = `${day}/${month}/${year}, ${hour}:${min}`;
+
+    labelDate.textContent = displayDate;
 
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
@@ -197,6 +218,10 @@ btnTransfer.addEventListener('click', function (e) {
     currentAccount.movements.push(-amount);
     receiverAcc.movements.push(amount);
 
+    //creating date
+    currentAccount.movementsDates.push(new Date().toISOString());
+    currentAccount.movementsDates.push(new Date().toISOString());
+
     // Update UI
     updateUI(currentAccount);
   }
@@ -210,6 +235,9 @@ btnLoan.addEventListener('click', function (e) {
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
     // Add movement
     currentAccount.movements.push(amount);
+
+    //creating date
+    currentAccount.movementsDates.push(new Date().toISOString());
 
     // Update UI
     updateUI(currentAccount);
@@ -246,6 +274,10 @@ btnSort.addEventListener('click', function (e) {
   displayMovements(currentAccount.movements, !sorted);
   sorted = !sorted;
 });
+
+currentAccount = account1;
+updateUI(currentAccount);
+containerApp.style.opacity = 100;
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -362,3 +394,32 @@ btnSort.addEventListener('click', function (e) {
 //       3293729382983298
 //   )
 // );
+
+// // Date and time
+// const now = new Date();
+// console.log(now);
+
+// console.log(new Date('Sep 16 2023 23:48:39'));
+// console.log(new Date('december 27 1986'));
+// console.log(new Date(account1.movementsDates[2]));
+
+// console.log(`Date`);
+// console.log(new Date(1993, 4, 17, 23, 56, 30));
+
+// console.log(new Date(93, 4, 17));
+
+// // time stamp
+// console.log(0);
+// console.log(new Date(3 * 24 * 60 * 60 * 1000));
+// console.log(new Date(86400000));
+
+// // CREATING DATE
+// const futher = new Date(1993, 4, 17, 23, 56);
+// console.log(futher);
+// console.log(futher.getFullYear());
+// console.log(futher.getMonth());
+// console.log(futher.getDate());
+// console.log(futher.getHours());
+// console.log(futher.getMinutes());
+// console.log(futher.getSeconds());
+// console.log(futher.getMilliseconds());
